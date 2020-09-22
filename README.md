@@ -48,7 +48,7 @@ The steps that follow include some user-defined variables. You will need to repl
 
 ### Deploy Azure Data Factory
 
-1. Navigate to the `data\enterprise_bi_sqldw_advanced\azure\templates` folder of the [GitHub repository][ref-arch-repo].
+1. Navigate to the `azure\templates` folder of the GitHub repository.
 
 2. Run the following Azure CLI command to create a resource group.
 
@@ -90,7 +90,7 @@ You will need the authentication key for the next step.
 
 This step deploys a VM as a simulated on-premises server, which includes SQL Server 2017 and related tools. It also loads the [Wide World Importers OLTP database](https://docs.microsoft.com/sql/sample/world-wide-importers/wide-world-importers-oltp-database) into SQL Server.
 
-1. Navigate to the `data\enterprise_bi_sqldw_advanced\onprem\templates` folder of the repository.
+1. Navigate to the `onprem\templates` folder of the repository.
 
 2. In the `onprem.parameters.json` file, search for `adminPassword`. This is the password to log into the SQL Server VM. Replace the value with another password.
 
@@ -123,7 +123,7 @@ This step may take 20 to 30 minutes to complete. It includes running a [DSC](htt
 
 This step provisions SQL Data Warehouse, Azure Analysis Services, and Data Factory.
 
-1. Navigate to the `data\enterprise_bi_sqldw_advanced\azure\templates` folder of the GitHub repository.
+1. Navigate to the `azure\templates` folder of the GitHub repository.
 
 2. Run the following Azure CLI command. Replace the parameter values shown in angle brackets.
 
@@ -168,7 +168,7 @@ This step provisions SQL Data Warehouse, Azure Analysis Services, and Data Facto
 3. From your Remote Desktop session, open a command prompt and navigate to the following folder on the VM:
 
     ```
-    cd C:\SampleDataFiles\reference-architectures\data\enterprise_bi_sqldw_advanced\azure\sqldw_scripts
+    cd C:\SampleDataFiles\azure-data-factory-sqldw-elt-pipeline\azure\sqldw_scripts
     ```
 
 4. Run the following command:

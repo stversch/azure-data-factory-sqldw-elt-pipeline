@@ -16,7 +16,7 @@ Configuration Provision_OnPrem
         $downloadsFolder = Join-Path $packageFolder "\Downloads"
         $logFilesFolder = Join-Path $packageFolder "\Logs"
         $dataFolder = Join-Path $packageFolder "\Data"
-        $projectFolder = Join-Path $packageFolder "\reference-architectures"
+        $projectFolder = Join-Path $packageFolder "\azure-data-factory-sqldw-elt-pipeline"
 
         # SQL Server Data Tools
         $ssdtLogPath = Join-Path $logFilesFolder "\ssdt_log.txt"
@@ -206,7 +206,7 @@ Configuration Provision_OnPrem
             }
             SetScript = {
                 Write-Verbose "Cloning project..."
-                Start-Process -Wait -FilePath $Using:gitPath -ArgumentList "clone", "https://github.com/mspnp/reference-architectures.git", `
+                Start-Process -Wait -FilePath $Using:gitPath -ArgumentList "clone", "https://github.com/mspnp/azure-data-factory-sqldw-elt-pipeline.git", `
                     "--branch", "master", "--depth", "1", "--single-branch", "--no-checkout" -WorkingDirectory $Using:packageFolder
                 Start-Process -Wait -FilePath $Using:gitPath -ArgumentList "config", "core.sparseCheckout", "true" -WorkingDirectory $Using:projectFolder
                 "data/*" | Out-File -Encoding ascii (Join-Path $Using:projectFolder "\.git\info\sparse-checkout")
@@ -236,7 +236,7 @@ Configuration Provision_OnPrem
                     Select-Object -Property LogicalName,@{Name="PhysicalName"; Expression = {Join-Path $Using:dataFolder (Split-Path $_.PhysicalName -Leaf)}} | `
                     ForEach-Object {New-Object Microsoft.SqlServer.Management.Smo.RelocateFile($_.LogicalName, $_.PhysicalName)}
                 Restore-SqlDatabase -ServerInstance $env:ComputerName -Database "$Using:databaseName" -BackupFile $Using:wwiBakPath -RelocateFile $relocateFiles
-                $ScriptsFolder = Join-Path $Using:projectFolder "\data\enterprise_bi_sqldw_advanced\onprem\db_scripts\"
+                $ScriptsFolder = Join-Path $Using:projectFolder "\onprem\db_scripts\"
                 Invoke-SqlCmd -ServerInstance $env:ComputerName -Database "$Using:databaseName" -InputFile (Join-Path $ScriptsFolder "[dbo].[DropProcedureIfExists].sql") -Verbose
                 Invoke-SqlCmd -ServerInstance $env:ComputerName -Database "$Using:databaseName" -InputFile (Join-Path $ScriptsFolder "[Integration].[Split_VarbinaryFunc].sql") -Verbose
                 Invoke-Sqlcmd -ServerInstance $env:ComputerName -Database "$Using:databaseName" -InputFile (Join-Path $ScriptsFolder "city\[Integration].[GetCityGeographyUpdates].sql") -Verbose
